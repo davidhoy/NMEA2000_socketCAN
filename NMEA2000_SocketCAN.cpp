@@ -77,7 +77,7 @@ bool tNMEA2000_SocketCAN::CANOpen() {
         }
 
     strncpy(ifr.ifr_name, _CANport, (sizeof(ifr.ifr_name)-1));
-    ifr.ifr_name[sizeof(ifr.ifr_name)] = '\0';                                          //  (And make sure to null terminate)
+    ifr.ifr_name[sizeof(ifr.ifr_name)-1] = '\0';                                        //  (And make sure to null terminate)
 
     if (ioctl(skt, SIOCGIFINDEX, &ifr) < 0) {
         cerr << "Failed CAN ioctl: " << ifr.ifr_name << endl;
@@ -110,6 +110,7 @@ bool tNMEA2000_SocketCAN::CANOpen() {
 
 //*****************************************************************************
 bool tNMEA2000_SocketCAN::CANSendFrame(unsigned long id, unsigned char len, const unsigned char *buf, bool wait_sent) {
+   (void)wait_sent; // Suppress unused parameter warning
    struct can_frame frame_wr;
 
    frame_wr.can_id  = id | CAN_EFF_FLAG;
