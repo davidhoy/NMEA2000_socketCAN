@@ -53,12 +53,23 @@ See also NMEA2000 library.
 tNMEA2000_SocketCAN::tNMEA2000_SocketCAN(char* CANport) : tNMEA2000()
 {
     static char defaultCANport[] = "can0";
-
+    
+    skt = -1;  // Initialize socket to invalid state
+    
     if (CANport != NULL)
         _CANport = CANport;
     else
         _CANport = defaultCANport;                                                 // NULL passed in, set to port to default: CAN0
 
+}
+
+
+//*****************************************************************************
+tNMEA2000_SocketCAN::~tNMEA2000_SocketCAN() {
+    if (skt >= 0) {
+        close(skt);
+        skt = -1;
+    }
 }
 
 

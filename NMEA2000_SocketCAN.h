@@ -58,6 +58,7 @@ protected:
 
 public:
     tNMEA2000_SocketCAN(char* CANport=NULL);
+    virtual ~tNMEA2000_SocketCAN();
 
 };
 
